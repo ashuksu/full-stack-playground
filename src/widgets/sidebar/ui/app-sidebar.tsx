@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Activity,
   Bell,
@@ -19,6 +21,7 @@ import {
 } from '@/shared/ui/sidebar';
 
 import Link from 'next/link';
+import { useWorkspaceStore } from '@/features/workspace/model/workspace-store';
 
 const items = [
   {
@@ -54,9 +57,13 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const workspaceId = useWorkspaceStore((state) => state.workspaceId);
+
   return (
     <Sidebar>
       <SidebarContent>
+        <div>{workspaceId ?? 'No workspace selected'}</div>
+
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
 
