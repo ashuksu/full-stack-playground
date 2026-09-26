@@ -2,6 +2,7 @@
 
 import { useWorkspaceStore } from '@/features/workspace/model/workspace-store';
 import { Button } from '@/shared/ui/button';
+import { MoonStar, Sun } from 'lucide-react';
 
 export function ThemeInfo() {
   console.log('ThemeInfo rendered');
@@ -11,7 +12,7 @@ export function ThemeInfo() {
     <Button
       onClick={() => useWorkspaceStore.getState().setTheme(theme === 'light' ? 'dark' : 'light')}
     >
-      Theme: {theme}
+      Theme: {theme} {theme === 'dark' ? <MoonStar /> : <Sun />}
     </Button>
   );
 }
