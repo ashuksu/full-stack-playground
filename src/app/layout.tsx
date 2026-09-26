@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist_Mono, Inter } from 'next/font/google';
 import { AppSidebar } from '@/widgets/sidebar';
 import { SidebarProvider, SidebarTrigger } from '@/shared/ui/sidebar';
+import { ThemeSync } from '@/features/workspace/ui/theme-sync';
 
 import './globals.css';
 
@@ -35,6 +36,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
             <main className="flex w-full flex-1 flex-col">{children}</main>
           </div>
         </SidebarProvider>
+
+        <ThemeSync />
       </body>
     </html>
   );
