@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 type ProjectState = {
   selectedProjectId: string | null;
@@ -15,6 +15,7 @@ export const useProjectStore = create<ProjectState>()(
     }),
     {
       name: 'project-store',
+      storage: createJSONStorage(() => sessionStorage),
     },
   ),
 );
