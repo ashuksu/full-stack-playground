@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { ProjectFilter } from '@/features/projects/components/project-filter';
 import { ProjectList } from '@/features/projects/components/project-list';
+import { WorkspaceSwitcher } from '@/features/workspace/components/workspace-switcher';
 
 export default function HomePage() {
   const [value, setValue] = useState('');
@@ -16,6 +17,8 @@ export default function HomePage() {
         <ProjectFilter value={value} onChange={setValue} />
 
         <ProjectList filter={value} />
+
+        <WorkspaceSwitcher />
       </div>
     </section>
   );
