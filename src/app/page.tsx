@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { ProjectFilter } from '@/features/projects/components/project-filter';
 import { ProjectList } from '@/features/projects/components/project-list';
-import { WorkspaceSwitcher } from '@/features/workspace/components/workspace-switcher';
+import { WorkspaceSwitcher } from '@/features/workspace/ui/workspace-switcher';
 import { ProjectDetails } from '@/features/projects/components/project-details';
 
 export default function HomePage() {
