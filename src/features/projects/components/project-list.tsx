@@ -1,3 +1,8 @@
+'use client';
+
+import { useProjectStore } from '@/features/projects/model/project-store';
+import { Button } from '@/shared/ui/button';
+
 type Project = {
   id: number;
   name: string;
@@ -18,10 +23,15 @@ export function ProjectList({ filter }: ProjectListProps) {
     project.name.toLowerCase().includes(filter.toLowerCase()),
   );
 
+  const setSelectedProjectId = useProjectStore((state) => state.setSelectedProjectId);
+
   return (
     <ul className="flex max-w-md flex-col gap-1">
       {filteredProjects.map((project) => (
-        <li key={project.id}>{project.name}</li>
+        <li className="flex items-center gap-2" key={project.id}>
+          {project.name}
+          <Button onClick={() => setSelectedProjectId(project.id.toString())}>Select</Button>
+        </li>
       ))}
     </ul>
   );
