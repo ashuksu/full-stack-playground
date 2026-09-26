@@ -9,3 +9,9 @@ export async function loadWorkspace() {
     workspaceId: user.name,
   });
 }
+
+export function resetWorkspace() {
+  useWorkspaceStore.getState().setWorkspaceId('workspace-1');
+}
+
+// resetWorkspace();
