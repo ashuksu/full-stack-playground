@@ -22,6 +22,9 @@ export const useWorkspaceStore = create<WorkspaceState>()(
     }),
     {
       name: 'workspace-store',
+      partialize: (state) => ({
+        theme: state.theme,
+      }),
     },
   ),
 );
