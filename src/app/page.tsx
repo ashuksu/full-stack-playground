@@ -15,7 +15,7 @@ export default function HomePage() {
 
         <ProjectFilter value={value} onChange={setValue} />
 
-        <ProjectList />
+        <ProjectList filter={value} />
       </div>
     </section>
   );
