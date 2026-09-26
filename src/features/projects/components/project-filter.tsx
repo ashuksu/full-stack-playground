@@ -1,24 +1,14 @@
-'use client';
-
-import { useState } from 'react';
-
 type ProjectFilterProps = {
+  value: string;
   onChange: (value: string) => void;
 };
 
-export function ProjectFilter({ onChange }: ProjectFilterProps) {
-  const [value, setValue] = useState('');
-
-  function handleChange(value: string) {
-    setValue(value);
-    onChange(value);
-  }
-
+export function ProjectFilter({ value, onChange }: ProjectFilterProps) {
   return (
     <input
       type="text"
       value={value}
-      onChange={(event) => handleChange(event.target.value)}
+      onChange={(event) => onChange(event.target.value)}
       placeholder="Filter projects..."
     />
   );
