@@ -1,3 +1,5 @@
+import { Input } from '@/shared/ui/input';
+
 type ProjectFilterProps = {
   value: string;
   onChange: (value: string) => void;
@@ -5,7 +7,7 @@ type ProjectFilterProps = {
 
 export function ProjectFilter({ value, onChange }: ProjectFilterProps) {
   return (
-    <input
+    <Input
       type="text"
       value={value}
       onChange={(event) => onChange(event.target.value)}

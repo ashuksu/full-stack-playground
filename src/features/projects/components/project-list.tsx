@@ -19,7 +19,7 @@ export function ProjectList({ filter }: ProjectListProps) {
   );
 
   return (
-    <ul>
+    <ul className="flex max-w-md flex-col gap-1">
       {filteredProjects.map((project) => (
         <li key={project.id}>{project.name}</li>
       ))}
