@@ -8,9 +8,9 @@ datasource db {
 }
 
 model products {
-  id          Int      @id(map: "products_pk") @default(autoincrement())
-  name        String?
-  price       Decimal? @db.Decimal
+  id          Int     @id(map: "products_pk") @default(autoincrement())
+  name        String
+  price       Decimal @db.Decimal
   description String?
   image       String?
 }
