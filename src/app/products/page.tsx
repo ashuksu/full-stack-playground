@@ -24,7 +24,7 @@ export default async function ProductsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {products.map((product) => (
+        {products.map((product, index) => (
           <Card key={product.id} className="flex flex-col justify-between overflow-hidden">
             <div>
               {product.image && (
@@ -35,6 +35,7 @@ export default async function ProductsPage() {
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover transition-transform duration-300 hover:scale-105"
+                    priority={index === 0}
                   />
                 </div>
               )}
