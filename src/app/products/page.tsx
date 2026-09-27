@@ -1,19 +1,13 @@
 import Image from 'next/image';
-import { pool } from '@/shared/lib/db';
+import { prisma } from '@/shared/lib/db';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
 
-interface Product {
-  id: number;
-  name: string;
-  price: string | number;
-  description: string;
-  image: string;
-}
-
 export default async function ProductsPage() {
-  const { rows: products } = await pool.query<Product>('SELECT * FROM products ORDER BY id ASC');
+  const products = await prisma.products.findMany({
+    orderBy: { id: 'asc' },
+  });
 
   return (
     <section className="container mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-6 py-10">
@@ -37,7 +31,7 @@ export default async function ProductsPage() {
                 <div className="bg-muted relative h-48 w-full">
                   <Image
                     src={product.image}
-                    alt={product.name}
+                    alt={product.name ?? 'Product image'}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover transition-transform duration-300 hover:scale-105"
@@ -57,7 +51,9 @@ export default async function ProductsPage() {
             </div>
 
             <CardFooter className="flex items-center justify-between p-4">
-              <span className="text-xl font-bold">${product.price}</span>
+              <span className="text-xl font-bold">
+                ${product.price ? Number(product.price).toFixed(2) : '0.00'}
+              </span>
               <Button size="sm">Add to Cart</Button>
             </CardFooter>
           </Card>
