@@ -31,14 +31,25 @@ DATABASE_URL="postgresql://postgres:password@localhost:5432/shop"
 
 ```
 
-### 3. Generate Prisma Client
+### 3. Database Setup & Seeding
+
+```bash
+# Push schema to the database
+pnpm exec prisma db push
+
+# Seed initial data from prisma/products.json
+pnpm exec prisma db seed
+
+```
+
+### 4. Generate Prisma Client
 
 ```bash
 pnpm exec prisma generate
 
 ```
 
-### 4. Run Application
+### 5. Run Application
 
 ```bash
 pnpm dev
@@ -68,6 +79,13 @@ _(e.g., added a new model or field in schema)_
 
 ```bash
 pnpm exec prisma db push
+
+```
+
+### Seed Database
+
+```bash
+pnpm exec prisma db seed
 
 ```
 

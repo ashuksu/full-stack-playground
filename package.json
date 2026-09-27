@@ -17,7 +17,6 @@
     "cn": "^0.2.6",
     "lucide-react": "^1.43.0",
     "next": "16.3.4",
-    "pg": "^8.23.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "shadcn": "^4.21.0",
@@ -28,7 +27,6 @@
     "@tailwindcss/postcss": "^4",
     "@tanstack/react-query-devtools": "^5.104.0",
     "@types/node": "^20",
-    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
@@ -39,7 +37,11 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@12.6.0"
+  "packageManager": "pnpm@12.6.0",
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
 }

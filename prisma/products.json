@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "MacBook Pro 16",
+    "price": "2499",
+    "description": "Powerful laptop for software development",
+    "image": "https://picsum.photos/id/1/400/300"
+  },
+  {
+    "id": 2,
+    "name": "iPhone 15 Pro",
+    "price": "999",
+    "description": "Flagship smartphone with titanium body",
+    "image": "https://picsum.photos/id/160/400/300"
+  },
+  {
+    "id": 3,
+    "name": "Wireless Headphones",
+    "price": "349",
+    "description": "Noise-canceling over-ear headphones",
+    "image": "https://picsum.photos/id/180/400/300"
+  },
+  {
+    "id": 4,
+    "name": "Mechanical Keyboard",
+    "price": "149",
+    "description": "RGB backlight with tactile switches",
+    "image": "https://picsum.photos/id/119/400/300"
+  },
+  {
+    "id": 5,
+    "name": "Ergonomic Mouse",
+    "price": "79",
+    "description": "Wireless mouse with high precision sensor",
+    "image": "https://picsum.photos/id/1062/400/300"
+  },
+  {
+    "id": 6,
+    "name": "4K Monitor 27\"",
+    "price": "599",
+    "description": "Ultra-sharp IPS display for creative pros",
+    "image": "https://picsum.photos/id/201/400/300"
+  },
+  {
+    "id": 7,
+    "name": "Smartwatch Series 9",
+    "price": "399",
+    "description": "Fitness tracking and health monitoring",
+    "image": "https://picsum.photos/id/367/400/300"
+  },
+  {
+    "id": 8,
+    "name": "Bluetooth Speaker",
+    "price": "129",
+    "description": "Waterproof portable speaker with deep bass",
+    "image": "https://picsum.photos/id/433/400/300"
+  },
+  {
+    "id": 9,
+    "name": "External SSD 1TB",
+    "price": "119",
+    "description": "High-speed portable solid state drive",
+    "image": "https://picsum.photos/id/1010/400/300"
+  },
+  {
+    "id": 10,
+    "name": "Laptop Backpack",
+    "price": "89",
+    "description": "Water-resistant travel backpack with USB port",
+    "image": "https://picsum.photos/id/1080/400/300"
+  }
+]
