@@ -8,6 +8,7 @@ import { WorkspaceSwitcher } from '@/features/workspace/ui/workspace-switcher';
 import { ProjectDetails } from '@/features/projects/ui/project-details';
 import { WorkspaceInfo } from '@/features/workspace/ui/workspace-info';
 import { ThemeInfo } from '@/features/workspace/ui/theme-info';
+import { UserInfo } from '@/features/users/ui/user-info';
 
 export default function HomePage() {
   const [value, setValue] = useState('');
@@ -27,6 +28,10 @@ export default function HomePage() {
 
         <div>
           <ThemeInfo />
+        </div>
+
+        <div className="flex items-center gap-3">
+          User name: <UserInfo />
         </div>
 
         <WorkspaceSwitcher />
