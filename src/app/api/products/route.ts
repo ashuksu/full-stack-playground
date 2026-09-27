@@ -1,4 +1,4 @@
-import { getProducts } from '@/features/products/api/get-products';
+import { getProducts } from '@/features/products/model/get-products';
 
 export async function GET() {
   const products = await getProducts();
