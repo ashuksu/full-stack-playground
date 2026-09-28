@@ -1,4 +1,5 @@
 import 'server-only';
+
 import { cache } from 'react';
 import { prisma } from '@/shared/lib/db';
 import type { Product, ProductFilters } from '../model/types';
