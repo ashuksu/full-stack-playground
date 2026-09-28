@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "Buy groceries"
+  },
+  {
+    "id": 2,
+    "title": "Learn Prisma seeds"
+  },
+  {
+    "id": 3,
+    "title": "Build Next.js app"
+  }
+]
