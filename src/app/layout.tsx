@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { Geist_Mono, Inter } from 'next/font/google';
 import { Providers } from '@/app/providers';
-import { SidebarProvider, SidebarTrigger } from '@/shared/ui/sidebar';
+import { SidebarProvider } from '@/shared/ui/sidebar';
 import { AppSidebar } from '@/widgets/sidebar';
 import { ThemeSync } from '@/features/workspace/ui/theme-sync';
+import { Header } from '@/widgets/header';
 
 import './globals.css';
 
@@ -31,9 +32,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
             <AppSidebar />
 
             <div className="flex min-h-screen flex-1 flex-col">
-              <header className="sticky top-0 z-5 flex h-12 items-center bg-zinc-300 px-4 font-sans dark:bg-zinc-900">
-                <SidebarTrigger />
-              </header>
+              <Header />
 
               <main className="flex w-full flex-1 flex-col">{children}</main>
             </div>
