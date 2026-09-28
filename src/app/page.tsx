@@ -9,6 +9,7 @@ import { ProjectDetails } from '@/features/projects/ui/project-details';
 import { WorkspaceInfo } from '@/features/workspace/ui/workspace-info';
 import { ThemeInfo } from '@/features/workspace/ui/theme-info';
 import { UserInfo } from '@/features/users/ui/user-info';
+import { TodoList } from '@/features/todo/ui/todo-list';
 
 export default function HomePage() {
   const [value, setValue] = useState('');
@@ -35,6 +36,8 @@ export default function HomePage() {
         </div>
 
         <WorkspaceSwitcher />
+
+        <TodoList />
       </div>
     </section>
   );

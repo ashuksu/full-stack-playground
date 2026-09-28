@@ -14,3 +14,8 @@ model products {
   description String?
   image       String?
 }
+
+model todo {
+  id    Int    @id @default(autoincrement())
+  title String
+}
