@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import productsData from './products.json';
-import todosData from './todo.json';
+import todoData from './todo.json';
 
 const prisma = new PrismaClient();
 
@@ -13,7 +13,7 @@ async function main() {
   });
 
   await prisma.todo.createMany({
-    data: todosData,
+    data: todoData,
   });
 }
 
