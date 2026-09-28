@@ -1,9 +1,9 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import { productsQueryOptions } from '@/entities/product';
-import { ProductsGrid, ProductsGridSkeleton } from '@/widgets/products-grid';
+
 import { getProducts } from '@/entities/product/api/get-products';
-import { ProductsCounter } from '@/entities/product/ui/products-counter';
+import { Product, ProductsCounter, productsQueryOptions } from '@/entities/product';
+import { ProductsGrid, ProductsGridSkeleton } from '@/widgets/products-grid';
 
 export default async function ProductsPage() {
   const queryClient = new QueryClient();
@@ -13,6 +13,9 @@ export default async function ProductsPage() {
     queryKey: productsQueryOptions(initialFilters).queryKey,
     queryFn: () => getProducts(initialFilters),
   });
+
+  const products =
+    queryClient.getQueryData<Product[]>(productsQueryOptions(initialFilters).queryKey) ?? [];
 
   return (
     <section className="container mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-6 py-10">
@@ -24,9 +27,7 @@ export default async function ProductsPage() {
             Browse our collection of tech gadgets and accessories.
           </p>
 
-          <Suspense fallback={<span className="text-muted-foreground text-sm">Loading...</span>}>
-            <ProductsCounter />
-          </Suspense>
+          <ProductsCounter count={products.length} />
         </div>
       </div>
 
