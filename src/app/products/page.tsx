@@ -2,12 +2,28 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { Suspense } from 'react';
 
 import { getProducts } from '@/entities/product/api/get-products';
-import { Product, ProductsCounter, productsQueryOptions } from '@/entities/product';
+import { Product, ProductFilters, ProductsCounter, productsQueryOptions } from '@/entities/product';
+import { ProductFiltersForm } from '@/features/product-filters';
 import { ProductsGrid, ProductsGridSkeleton } from '@/widgets/products-grid';
 
-export default async function ProductsPage() {
+type PageProps = {
+  searchParams: Promise<{
+    category?: string;
+    minPrice?: string;
+    maxPrice?: string;
+  }>;
+};
+
+export default async function ProductsPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+
+  const initialFilters: ProductFilters = {
+    category: params.category,
+    minPrice: params.minPrice ? Number(params.minPrice) : undefined,
+    maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
+  };
+
   const queryClient = new QueryClient();
-  const initialFilters = {};
 
   await queryClient.prefetchQuery({
     queryKey: productsQueryOptions(initialFilters).queryKey,
@@ -31,9 +47,13 @@ export default async function ProductsPage() {
         </div>
       </div>
 
+      <Suspense fallback={null}>
+        <ProductFiltersForm />
+      </Suspense>
+
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<ProductsGridSkeleton />}>
-          <ProductsGrid initialFilters={initialFilters} />
+          <ProductsGrid />
         </Suspense>
       </HydrationBoundary>
     </section>
