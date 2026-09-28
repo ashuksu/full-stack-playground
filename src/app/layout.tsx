@@ -31,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
             <AppSidebar />
 
             <div className="flex min-h-screen flex-1 flex-col">
-              <header className="sticky top-0 flex h-12 items-center bg-zinc-300 px-4 font-sans dark:bg-zinc-900">
+              <header className="sticky top-0 z-5 flex h-12 items-center bg-zinc-300 px-4 font-sans dark:bg-zinc-900">
                 <SidebarTrigger />
               </header>
 
