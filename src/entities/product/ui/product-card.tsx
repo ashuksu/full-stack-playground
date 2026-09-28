@@ -4,7 +4,7 @@ import type { Product } from '../model/types';
 
 export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
   return (
-    <Card className="flex flex-col justify-between overflow-hidden">
+    <Card className="flex flex-col justify-between overflow-hidden pt-0">
       <div>
         {product.image && (
           <div className="bg-muted relative h-48 w-full">

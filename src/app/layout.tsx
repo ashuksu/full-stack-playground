@@ -25,13 +25,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={`${inter.variable} ${geistMono.variable} dark h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-zinc-50 font-sans dark:bg-black">
+      <body className="flex min-h-full flex-col bg-zinc-100 font-sans dark:bg-black">
         <Providers>
           <SidebarProvider>
             <AppSidebar />
 
             <div className="flex min-h-screen flex-1 flex-col">
-              <header className="flex h-12 items-center border-b px-4">
+              <header className="sticky top-0 z-5 flex h-12 items-center bg-zinc-300 px-4 font-sans dark:bg-zinc-900">
                 <SidebarTrigger />
               </header>
 
