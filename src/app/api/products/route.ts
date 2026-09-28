@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { getProducts } from '@/entities/product';
+import { getProducts } from '@/entities/product/api/get-products';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;

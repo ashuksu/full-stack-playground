@@ -1,7 +1,8 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import { getProducts, ProductsCounter, productsQueryOptions } from '@/entities/product';
+import { ProductsCounter, productsQueryOptions } from '@/entities/product';
 import { ProductsGrid, ProductsGridSkeleton } from '@/widgets/products-grid';
+import { getProducts } from '@/entities/product/api/get-products';
 
 export default async function ProductsPage() {
   const queryClient = new QueryClient();
