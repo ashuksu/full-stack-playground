@@ -1,4 +1,4 @@
-import { getProducts } from '@/entities/product/api/get-products';
+import { getProducts } from '@/entities/product';
 
 export async function GET() {
   const products = await getProducts();

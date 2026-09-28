@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getProducts } from '@/entities/product/api/get-products';
+import { getProducts } from '@/entities/product';
 import { ProductsGrid, ProductsGridSkeleton } from '@/widgets/products-grid';
 
 async function ProductsGridServer() {
