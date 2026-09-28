@@ -1,13 +1,17 @@
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import { getProducts, ProductsCounter } from '@/entities/product';
+import { getProducts, ProductsCounter, productsQueryOptions } from '@/entities/product';
 import { ProductsGrid, ProductsGridSkeleton } from '@/widgets/products-grid';
 
-async function ProductsGridServer() {
-  const products = await getProducts();
-  return <ProductsGrid products={products} />;
-}
+export default async function ProductsPage() {
+  const queryClient = new QueryClient();
+  const initialFilters = {};
 
-export default function ProductsPage() {
+  await queryClient.prefetchQuery({
+    queryKey: productsQueryOptions(initialFilters).queryKey,
+    queryFn: () => getProducts(initialFilters),
+  });
+
   return (
     <section className="container mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-6 py-10">
       <div className="flex w-full flex-col gap-3">
@@ -18,13 +22,17 @@ export default function ProductsPage() {
             Browse our collection of tech gadgets and accessories.
           </p>
 
-          <ProductsCounter />
+          <Suspense fallback={<span className="text-muted-foreground text-sm">Loading...</span>}>
+            <ProductsCounter />
+          </Suspense>
         </div>
       </div>
 
-      <Suspense fallback={<ProductsGridSkeleton />}>
-        <ProductsGridServer />
-      </Suspense>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Suspense fallback={<ProductsGridSkeleton />}>
+          <ProductsGrid initialFilters={initialFilters} />
+        </Suspense>
+      </HydrationBoundary>
     </section>
   );
 }

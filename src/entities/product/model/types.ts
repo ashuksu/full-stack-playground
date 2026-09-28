@@ -5,3 +5,9 @@ export type Product = {
   price: number;
   image: string | null;
 };
+
+export type ProductFilters = {
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+};
