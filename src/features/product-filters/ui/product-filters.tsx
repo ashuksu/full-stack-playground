@@ -41,7 +41,7 @@ export function ProductFiltersForm({ categories }: Props) {
   };
 
   return (
-    <div className="bg-card flex flex-wrap items-center gap-4 rounded-lg border p-4">
+    <div className="bg-card flex flex-wrap items-center gap-4 rounded-lg border p-2">
       <div className="w-48">
         <Select
           value={category}
