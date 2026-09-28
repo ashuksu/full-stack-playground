@@ -6,7 +6,11 @@ import { Input } from '@/shared/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Button } from '@/shared/ui/button';
 
-export function ProductFiltersForm() {
+type Props = {
+  categories: string[];
+};
+
+export function ProductFiltersForm({ categories }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -41,19 +45,20 @@ export function ProductFiltersForm() {
       <div className="w-48">
         <Select
           value={category}
-          onValueChange={(val: string | null) => {
-            const nextCategory = !val || val === 'all' ? '' : val;
-            updateFilters('category', nextCategory);
-          }}
+          onValueChange={(val: string | null) =>
+            updateFilters('category', !val || val === 'all' ? '' : val)
+          }
         >
           <SelectTrigger>
-            <SelectValue placeholder="Category" />
+            <SelectValue placeholder="All Categories" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Categories</SelectItem>
-            <SelectItem value="electronics">Electronics</SelectItem>
-            <SelectItem value="clothing">Clothing</SelectItem>
-            <SelectItem value="books">Books</SelectItem>
+            {categories.map((cat) => (
+              <SelectItem key={cat} value={cat}>
+                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>

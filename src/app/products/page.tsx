@@ -2,6 +2,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { Suspense } from 'react';
 
 import { getProducts } from '@/entities/product/api/get-products';
+import { getCategories } from '@/entities/product/api/get-categories';
 import { Product, ProductFilters, ProductsCounter, productsQueryOptions } from '@/entities/product';
 import { ProductFiltersForm } from '@/features/product-filters';
 import { ProductsGrid, ProductsGridSkeleton } from '@/widgets/products-grid';
@@ -25,10 +26,13 @@ export default async function ProductsPage({ searchParams }: PageProps) {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: productsQueryOptions(initialFilters).queryKey,
-    queryFn: () => getProducts(initialFilters),
-  });
+  const [categories] = await Promise.all([
+    getCategories(),
+    queryClient.prefetchQuery({
+      queryKey: productsQueryOptions(initialFilters).queryKey,
+      queryFn: () => getProducts(initialFilters),
+    }),
+  ]);
 
   const products =
     queryClient.getQueryData<Product[]>(productsQueryOptions(initialFilters).queryKey) ?? [];
@@ -48,7 +52,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
       </div>
 
       <Suspense fallback={null}>
-        <ProductFiltersForm />
+        <ProductFiltersForm categories={categories} />
       </Suspense>
 
       <HydrationBoundary state={dehydrate(queryClient)}>
