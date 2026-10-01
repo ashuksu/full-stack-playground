@@ -7,7 +7,7 @@ import { cn } from '@/shared/lib/utils';
 const NAV_ITEMS = [
   { href: '/', label: 'Home' },
   { href: '/products', label: 'Products' },
-  { href: '/stream/test-room', label: 'Stream' },
+  { href: '/stream', label: 'Stream' },
 ];
 
 export function Navigation() {
