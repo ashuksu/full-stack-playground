@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
+    "@livekit/components-react": "^2.9.24",
     "@prisma/client": "6.19.3",
     "@tanstack/react-query": "^5.103.2",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.2.6",
+    "livekit-client": "^2.22.3",
+    "livekit-server-sdk": "^2.19.1",
     "lucide-react": "^1.43.0",
     "next": "16.3.4",
     "react": "19.2.8",
@@ -38,9 +41,9 @@
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
-    "typescript": "^5"
+    "typescript": "^5.0.0"
   },
-  "packageManager": "pnpm@12.6.0",
+  "packageManager": "pnpm@12.8.1",
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   }
