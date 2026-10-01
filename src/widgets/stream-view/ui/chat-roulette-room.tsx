@@ -1,23 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import {
   Chat,
   ControlBar,
-  LiveKitRoom,
   RoomAudioRenderer,
   useTracks,
   VideoTrack,
 } from '@livekit/components-react';
 import { Track } from 'livekit-client';
-import { getLiveKitToken } from '@/shared/api/livekit';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
+import { RoomHeader } from './room-header';
+import { RoomShell } from './room-shell';
 
 const DuelStage = () => {
-  const cameraTracks = useTracks([Track.Source.Camera], {
-    onlySubscribed: false,
-  });
+  const cameraTracks = useTracks([Track.Source.Camera], { onlySubscribed: false }).slice(0, 2);
 
   if (cameraTracks.length === 0) {
     return (
@@ -31,7 +28,7 @@ const DuelStage = () => {
     <div className="grid h-full w-full grid-cols-1 gap-2 bg-black p-2 md:grid-cols-2">
       {cameraTracks.map((track) => (
         <div
-          key={track.publication.trackSid || track.participant.identity}
+          key={track.participant.identity}
           className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
         >
           <VideoTrack trackRef={track} className="h-full w-full object-cover" />
@@ -52,43 +49,15 @@ const DuelStage = () => {
   );
 };
 
-interface ChatRouletteRoomProps {
-  roomId: string;
-  username: string;
-}
+export const ChatRouletteRoom = ({ roomId }: { roomId: string }) => (
+  <section className="flex flex-col gap-4 p-4">
+    <RoomHeader title="Chat Roulette Mode (1 on 1)" roomId={roomId} />
 
-export const ChatRouletteRoom = ({ roomId, username }: ChatRouletteRoomProps) => {
-  const [token, setToken] = useState('');
-  const [wsUrl, setWsUrl] = useState('');
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    getLiveKitToken(roomId, username, true)
-      .then((data) => {
-        setToken(data.token);
-        setWsUrl(data.wsUrl);
-      })
-      .catch((err) => setError(err.message));
-  }, [roomId, username]);
-
-  if (error) return <div className="text-destructive p-4">Error: {error}</div>;
-  if (!token || !wsUrl)
-    return <div className="text-muted-foreground p-4">Connecting to 1x1 room...</div>;
-
-  return (
-    <LiveKitRoom
-      video={true}
-      audio={true}
-      token={token}
-      serverUrl={wsUrl}
-      data-lk-theme="default"
-      style={{ height: 'calc(100vh - 140px)' }}
-    >
+    <RoomShell mode="roulette" roomId={roomId}>
       <div className="grid h-full grid-cols-1 gap-4 lg:grid-cols-4">
         <div className="relative flex flex-col justify-between overflow-hidden rounded-lg bg-black lg:col-span-3">
           <DuelStage />
           <RoomAudioRenderer />
-
           <div className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2">
             <ControlBar controls={{ chat: false, settings: false }} />
           </div>
@@ -100,6 +69,6 @@ export const ChatRouletteRoom = ({ roomId, username }: ChatRouletteRoomProps) =>
           </div>
         </Card>
       </div>
-    </LiveKitRoom>
-  );
-};
+    </RoomShell>
+  </section>
+);
