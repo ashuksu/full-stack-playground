@@ -1,33 +1,30 @@
 # Full Stack Playground
 
-## 🏗️ Monorepo Architecture
-
-Project is structured as a **Turborepo** workspace:
-
-- **`apps/web`**: Next.js 16 App Router application (`@repo/web`).
-
----
-
 ## 🚀 Local Development Setup
 
 ### Prerequisites
 
 - Node.js LTS
-- `pnpm` (v12+)
+- `pnpm` (v10+)
 - PostgreSQL running locally
 
 ### 1. Installation
-
-Install all workspace dependencies from the root directory:
 
 ```bash
 pnpm install
 
 ```
 
+> If `pnpm` blocks build scripts, allow Prisma binaries:
+>
+> ```bash
+> pnpm approve-builds --all
+>
+> ```
+
 ### 2. Environment Setup
 
-Create a `.env` file in the **root directory**:
+Create a `.env` file in the root directory:
 
 ```env
 DATABASE_URL="postgresql://postgres:password@localhost:5432/shop"
@@ -36,29 +33,23 @@ DATABASE_URL="postgresql://postgres:password@localhost:5432/shop"
 
 ### 3. Database Setup & Seeding
 
-Sync database schema and seed initial data for the web workspace:
-
 ```bash
-# Push schema to PostgreSQL
-pnpm --filter @repo/web exec prisma db push
+# Push schema to the database
+pnpm exec prisma db push
 
-# Seed initial data
-pnpm --filter @repo/web exec prisma db seed
+# Seed initial data from prisma/products.json
+pnpm exec prisma db seed
 
 ```
 
 ### 4. Generate Prisma Client
 
-Generate Prisma Client types:
-
 ```bash
-pnpm --filter @repo/web exec prisma generate
+pnpm exec prisma generate
 
 ```
 
 ### 5. Run Application
-
-Start the dev environment via Turborepo:
 
 ```bash
 pnpm dev
@@ -69,36 +60,38 @@ pnpm dev
 
 ## 🗄️ Database Workflows (Prisma)
 
-All database operations run via pnpm workspace filters targeting `apps/web`:
+### Sync schema after changes made directly in PostgreSQL
 
-### Sync schema after manual changes in PostgreSQL
+_(e.g., via DBeaver, pgAdmin, or raw SQL)_
 
 ```bash
 # 1. Pull database structure into schema.prisma
-pnpm --filter @repo/web exec prisma db pull
+pnpm exec prisma db pull
 
 # 2. Re-generate TypeScript types
-pnpm --filter @repo/web exec prisma generate
+pnpm exec prisma generate
 
 ```
 
-### Push changes from `apps/web/prisma/schema.prisma` to Database
+### Push changes made in `prisma/schema.prisma` to Database
+
+_(e.g., added a new model or field in schema)_
 
 ```bash
-pnpm --filter @repo/web exec prisma db push
+pnpm exec prisma db push
 
 ```
 
 ### Seed Database
 
 ```bash
-pnpm --filter @repo/web exec prisma db seed
+pnpm exec prisma db seed
 
 ```
 
-### GUI Database Management (Prisma Studio)
+### GUI Database Management
 
 ```bash
-pnpm --filter @repo/web exec prisma studio
+pnpm exec prisma studio
 
 ```
