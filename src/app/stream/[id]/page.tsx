@@ -1,69 +1,64 @@
-'use client';
+import Link from 'next/link';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
+import { Badge } from '@/shared/ui/badge';
+import { buttonVariants } from '@/shared/ui/button';
 
-import { use, useState } from 'react';
-import { StreamRoom } from '@/widgets/stream-view/ui/stream-room';
-import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
+export default function StreamIndexPage() {
+  const defaultRoom = 'test-room';
 
-export default function StreamPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id: roomId } = use(params);
-
-  const [username, setUsername] = useState('');
-  const [isPublisher, setIsPublisher] = useState(false);
-  const [isJoined, setIsJoined] = useState(false);
-
-  if (!isJoined) {
-    return (
-      <div className="mx-auto mt-20 max-w-md space-y-4 rounded-xl border p-6 shadow-sm">
-        <h1 className="text-xl font-bold">Connect to stream: {roomId}</h1>
-
-        <div>
-          <label className="text-sm font-medium">Your name:</label>
-          <Input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Nickname"
-            className="mt-1"
-          />
-        </div>
-
-        <div className="flex items-center gap-2 pt-2">
-          <Button
-            onClick={() => {
-              setIsPublisher(true);
-              setIsJoined(true);
-            }}
-            disabled={!username.trim()}
-          >
-            Login as Streamer (Camera + Microphone)
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              setIsPublisher(false);
-              setIsJoined(true);
-            }}
-            disabled={!username.trim()}
-          >
-            Login as Viewer
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  const modes = [
+    {
+      title: 'Broadcast (1 to N)',
+      description:
+        'Twitch/YouTube format: 1 main streamer in the center with viewer list and chat on the side.',
+      href: `/stream/broadcast/${defaultRoom}`,
+      actionText: 'Open Broadcast',
+      tag: '1 to N',
+    },
+    {
+      title: 'Chat Roulette (1x1)',
+      description: '1x1 format: Split screen 50/50 for two participants with live chat.',
+      href: `/stream/roulette/${defaultRoom}`,
+      actionText: 'Open 1x1',
+      tag: '1 v 1',
+    },
+    {
+      title: 'Conference',
+      description:
+        'Zoom/Meet grid format: Adaptive grid of all participants with controls and pagination.',
+      href: `/stream/conference/${defaultRoom}`,
+      actionText: 'Open Conference',
+      tag: 'Group Call',
+    },
+  ];
 
   return (
-    <div>
-      <div className="flex items-center justify-between border-b p-4">
-        <h1 className="font-semibold">
-          Stream: {roomId} | You: {username} ({isPublisher ? 'are the Streamer' : 'are a Viewer'})
-        </h1>
-        <Button variant="destructive" size="sm" onClick={() => setIsJoined(false)}>
-          Viewer
-        </Button>
+    <div className="mx-auto max-w-5xl space-y-6 p-6">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">Select Broadcast Mode</h1>
+        <p className="text-muted-foreground">
+          Each page is configured for a specific WebRTC usage scenario using LiveKit components.
+        </p>
       </div>
 
-      <StreamRoom roomId={roomId} username={username} isPublisher={isPublisher} />
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {modes.map((mode) => (
+          <Card key={mode.title} className="flex flex-col justify-between">
+            <CardHeader>
+              <div className="mb-2 flex items-center justify-between gap-2">
+                <CardTitle className="text-xl">{mode.title}</CardTitle>
+                <Badge variant="outline">{mode.tag}</Badge>
+              </div>
+              <CardDescription>{mode.description}</CardDescription>
+            </CardHeader>
+            <CardFooter className="pt-4">
+              <Link href={mode.href} className={buttonVariants({ className: 'w-full' })}>
+                {mode.actionText}
+              </Link>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }
