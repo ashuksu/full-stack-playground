@@ -6,6 +6,7 @@ import { AppSidebar } from '@/widgets/sidebar';
 import { ThemeSync } from '@/features/workspace/ui/theme-sync';
 import { Header } from '@/widgets/header';
 
+import '@livekit/components-styles';
 import './globals.css';
 
 const inter = Inter({
