@@ -1,8 +1,43 @@
+// http://localhost:3000/stream/test-room
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Chat, LiveKitRoom, RoomAudioRenderer, VideoConference } from '@livekit/components-react';
+import {
+  Chat,
+  ControlBar,
+  LiveKitRoom,
+  RoomAudioRenderer,
+  useTracks,
+  VideoTrack,
+} from '@livekit/components-react';
+import { Track } from 'livekit-client';
 import { getLiveKitToken } from '@/shared/api/livekit';
+
+const StreamStage = () => {
+  const tracks = useTracks([Track.Source.Camera, Track.Source.ScreenShare], {
+    onlySubscribed: true,
+  });
+
+  if (tracks.length === 0) {
+    return (
+      <div className="text-muted-foreground flex h-full w-full items-center justify-center">
+        Ожидание начала трансляции...
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative flex h-full w-full items-center justify-center bg-black">
+      {tracks.map((track) => (
+        <VideoTrack
+          key={track.publication.trackSid}
+          trackRef={track}
+          className="h-full w-full object-contain"
+        />
+      ))}
+    </div>
+  );
+};
 
 interface StreamRoomProps {
   roomId: string;
@@ -39,8 +74,15 @@ export const StreamRoom = ({ roomId, username, isPublisher }: StreamRoomProps) =
       <div className="grid h-full grid-cols-1 gap-4 p-4 lg:grid-cols-4">
         {/* Video zone */}
         <div className="relative flex flex-col justify-between overflow-hidden rounded-lg bg-black lg:col-span-3">
-          <VideoConference />
+          <StreamStage />
           <RoomAudioRenderer />
+
+          {/* Camera/microphone enable control for streamer only */}
+          {isPublisher && (
+            <div className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2">
+              <ControlBar controls={{ chat: false, settings: false }} />
+            </div>
+          )}
         </div>
 
         {/* Chat directly from LiveKit Data Channels */}
