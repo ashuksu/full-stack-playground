@@ -1,26 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Chat,
   ControlBar,
-  LiveKitRoom,
   RoomAudioRenderer,
   useParticipants,
   useTracks,
   VideoTrack,
 } from '@livekit/components-react';
 import { Track } from 'livekit-client';
-import { getLiveKitToken } from '@/shared/api/livekit';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
+import { Label } from '@/shared/ui/label';
+import { Switch } from '@/shared/ui/switch';
+import { RoomHeader } from './room-header';
+import { RoomShell } from './room-shell';
 
 const Stage = () => {
-  const tracks = useTracks([Track.Source.Camera, Track.Source.ScreenShare], {
+  const tracks = useTracks([Track.Source.ScreenShare, Track.Source.Camera], {
     onlySubscribed: true,
   });
 
-  if (tracks.length === 0) {
+  const main = tracks.find((t) => t.source === Track.Source.ScreenShare) ?? tracks[0];
+
+  if (!main) {
     return (
       <div className="text-muted-foreground flex h-full w-full items-center justify-center">
         Streamer has not started broadcasting yet...
@@ -30,13 +34,7 @@ const Stage = () => {
 
   return (
     <div className="relative flex h-full w-full items-center justify-center bg-black">
-      {tracks.map((track) => (
-        <VideoTrack
-          key={track.publication.trackSid}
-          trackRef={track}
-          className="h-full w-full object-contain"
-        />
-      ))}
+      <VideoTrack trackRef={main} className="h-full w-full object-contain" />
     </div>
   );
 };
@@ -53,7 +51,7 @@ const ParticipantList = () => {
       <div className="max-h-40 space-y-1 overflow-y-auto">
         {participants.map((p) => (
           <div
-            key={p.sid}
+            key={p.identity}
             className="bg-muted/50 flex items-center justify-between rounded px-2 py-1 text-sm"
           >
             <span className="truncate">{p.identity}</span>
@@ -65,61 +63,40 @@ const ParticipantList = () => {
   );
 };
 
-interface BroadcastStreamRoomProps {
-  roomId: string;
-  username: string;
-  isPublisher: boolean;
-}
-
-export const BroadcastStreamRoom = ({
-  roomId,
-  username,
-  isPublisher,
-}: BroadcastStreamRoomProps) => {
-  const [token, setToken] = useState('');
-  const [wsUrl, setWsUrl] = useState('');
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    getLiveKitToken(roomId, username, isPublisher)
-      .then((data) => {
-        setToken(data.token);
-        setWsUrl(data.wsUrl);
-      })
-      .catch((err) => setError(err.message));
-  }, [roomId, username, isPublisher]);
-
-  if (error) return <div className="text-destructive p-4">Error: {error}</div>;
-  if (!token || !wsUrl)
-    return <div className="text-muted-foreground p-4">Loading broadcast token...</div>;
+export const BroadcastStreamRoom = ({ roomId }: { roomId: string }) => {
+  const [isPublisher, setIsPublisher] = useState(true);
 
   return (
-    <LiveKitRoom
-      video={isPublisher}
-      audio={isPublisher}
-      token={token}
-      serverUrl={wsUrl}
-      data-lk-theme="default"
-      style={{ height: 'calc(100vh - 140px)' }}
-    >
-      <div className="grid h-full grid-cols-1 gap-4 lg:grid-cols-4">
-        <div className="relative flex flex-col justify-between overflow-hidden rounded-lg bg-black lg:col-span-3">
-          <Stage />
-          <RoomAudioRenderer />
-          {isPublisher && (
-            <div className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2">
-              <ControlBar controls={{ chat: false, settings: false }} />
-            </div>
-          )}
+    <section className="flex flex-col gap-4 p-4">
+      <RoomHeader title="Broadcast Mode (1 to N)" roomId={roomId}>
+        <div className="flex items-center space-x-2">
+          <Switch id="publisher-mode" checked={isPublisher} onCheckedChange={setIsPublisher} />
+          <Label htmlFor="publisher-mode" className="cursor-pointer font-medium">
+            I&apos;m a Streamer
+          </Label>
         </div>
+      </RoomHeader>
 
-        <Card className="flex h-full flex-col gap-0 overflow-hidden p-0">
-          <ParticipantList />
-          <div className="flex-1 overflow-hidden">
-            <Chat />
+      <RoomShell mode="broadcast" roomId={roomId} isPublisher={isPublisher}>
+        <div className="grid h-full grid-cols-1 gap-4 lg:grid-cols-4">
+          <div className="relative flex flex-col justify-between overflow-hidden rounded-lg bg-black lg:col-span-3">
+            <Stage />
+            <RoomAudioRenderer />
+            {isPublisher && (
+              <div className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2">
+                <ControlBar controls={{ chat: false, settings: false }} />
+              </div>
+            )}
           </div>
-        </Card>
-      </div>
-    </LiveKitRoom>
+
+          <Card className="flex h-full flex-col gap-0 overflow-hidden p-0">
+            <ParticipantList />
+            <div className="flex-1 overflow-hidden">
+              <Chat />
+            </div>
+          </Card>
+        </div>
+      </RoomShell>
+    </section>
   );
 };
