@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import { Server } from 'socket.io';
+import { AccessToken } from 'livekit-server-sdk';
 
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
@@ -26,7 +27,7 @@ const server = http.createServer(app);
 
 const io = new Server<{}, ServerToClientEvents>(server, {
   cors: {
-    origin: [WEB_URL, STREAMER_URL],
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
   },
   transports: ['websocket'],
@@ -50,6 +51,25 @@ io.on('connection', (socket) => {
     console.log(`[Socket] Disconnected: ${socket.id}`);
     broadcastOnlineCount();
   });
+});
+
+app.get('/api/livekit/token', async (req, res) => {
+  const room = (req.query.room as string) || 'main-room';
+  const username = (req.query.username as string) || `user-${Math.floor(Math.random() * 1000)}`;
+
+  const apiKey = process.env.LIVEKIT_API_KEY;
+  const apiSecret = process.env.LIVEKIT_API_SECRET;
+
+  if (!apiKey || !apiSecret) {
+    res.status(500).json({ error: 'LiveKit API keys are missing in .env' });
+    return;
+  }
+
+  const at = new AccessToken(apiKey, apiSecret, { identity: username });
+  at.addGrant({ roomJoin: true, room, canPublish: true, canSubscribe: true });
+
+  const token = await at.toJwt();
+  res.json({ token, room, username });
 });
 
 app.get('/health', (_req, res) => {
