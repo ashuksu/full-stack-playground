@@ -1,5 +1,13 @@
 # Live-Entertainment Monorepo PoC — Roadmap
 
+## Implementation Checklist
+
+- [x] **Phase 1 (Completed)**: Turborepo, Next.js (`apps/web`), Prisma, and PostgreSQL configured.
+- [ ] **Phase 2 (`apps/server`)**: Express + Socket.io (chat, donations) and LiveKit token generation endpoint.
+- [ ] **Phase 3 (`apps/streamer`)**: Vite SPA for the broadcaster with webcam capture via LiveKit SDK.
+- [ ] **Phase 4 (`apps/web`)**: Stream player, real-time chat, balance management (Zustand), and data caching (TanStack Query).
+- [ ] **Phase 5 (Final Integration & Theory)**: End-to-end verification and tech interview topic breakdown (WebRTC/SFU, WebSockets, Hydration, Performance).
+
 ## Architecture Overview
 
 ```text
