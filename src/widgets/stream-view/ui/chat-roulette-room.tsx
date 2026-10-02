@@ -13,6 +13,8 @@ import { Card } from '@/shared/ui/card';
 import { RoomHeader } from './room-header';
 import { RoomShell } from './room-shell';
 
+import styles from './chat.module.css';
+
 const DuelStage = () => {
   const cameraTracks = useTracks([Track.Source.Camera], { onlySubscribed: false }).slice(0, 2);
 
@@ -29,7 +31,7 @@ const DuelStage = () => {
       {cameraTracks.map((track) => (
         <div
           key={track.participant.identity}
-          className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
+          className="relative flex aspect-square h-full w-full items-center justify-center overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
         >
           <VideoTrack trackRef={track} className="h-full w-full object-cover" />
           <div className="absolute bottom-2 left-2">
@@ -54,7 +56,7 @@ export const ChatRouletteRoom = ({ roomId }: { roomId: string }) => (
     <RoomHeader title="Chat Roulette Mode (1 on 1)" roomId={roomId} />
 
     <RoomShell mode="roulette" roomId={roomId}>
-      <div className="grid h-full grid-cols-1 gap-4 lg:grid-cols-4">
+      <div className="grid h-full grid-cols-1 items-start gap-4 lg:grid-cols-4">
         <div className="relative flex flex-col justify-between overflow-hidden rounded-lg bg-black lg:col-span-3">
           <DuelStage />
           <RoomAudioRenderer />
@@ -64,7 +66,7 @@ export const ChatRouletteRoom = ({ roomId }: { roomId: string }) => (
         </div>
 
         <Card className="flex h-full flex-col gap-0 overflow-hidden p-0">
-          <div className="flex-1 overflow-hidden">
+          <div className={`${styles.chat} flex-1 overflow-hidden`}>
             <Chat />
           </div>
         </Card>

@@ -17,6 +17,8 @@ import { Switch } from '@/shared/ui/switch';
 import { RoomHeader } from './room-header';
 import { RoomShell } from './room-shell';
 
+import styles from './chat.module.css';
+
 const Stage = () => {
   const tracks = useTracks([Track.Source.ScreenShare, Track.Source.Camera], {
     onlySubscribed: true,
@@ -91,7 +93,7 @@ export const BroadcastStreamRoom = ({ roomId }: { roomId: string }) => {
 
           <Card className="flex h-full flex-col gap-0 overflow-hidden p-0">
             <ParticipantList />
-            <div className="flex-1 overflow-hidden">
+            <div className={`flex-1 overflow-hidden ${styles.chat}`}>
               <Chat />
             </div>
           </Card>
