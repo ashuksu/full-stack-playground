@@ -30,3 +30,6 @@ coverage/
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# Prisma migrations
+prisma/migrations/
